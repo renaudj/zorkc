@@ -13,7 +13,7 @@ public class Zork {
   }
   private volatile AtomicBoolean isFinished = new AtomicBoolean();
   public static void main(String[] args){
-    System.out.println("It works!");
+    new Zork();
   }
   
   public void connect(){

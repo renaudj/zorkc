@@ -1,12 +1,8 @@
 package me.renaudj.zork;
 
 public class Lang {
-  
-  static {
-  
-		String title = "The Legend of Stelgin Putin";
-		String intro = "Welcome to " + title + "!";
-		
-  }
+
+	public static String title = "The Legend of Stelgin Putin";
+	public static String intro = "Welcome to " + title + "!";
   
 }

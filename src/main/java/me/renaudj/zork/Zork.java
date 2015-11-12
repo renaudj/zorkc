@@ -5,8 +5,10 @@ import java.util.Scanner;
 public class Zork{
   
   public boolean running = false;
+  public CommandHandler commandHandler;
   
   public Zork(){
+	  commandHandler = new CommandHandler(this);
     start();
     
   }
@@ -18,7 +20,7 @@ public class Zork{
     Scanner userInput = new Scanner(System.in);
     while(running){
       if(userInput.hasNext()){
-      	System.out.println("You said: " + userInput.next());
+    	  commandHandler.handle(userInput.next());
       }
     }
   }

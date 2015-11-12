@@ -9,6 +9,15 @@ public class Zork{
   
   public Zork(){
 	  commandHandler = new CommandHandler(this);
+	  commandHandler.register("quit", new Command(){
+
+		public boolean onCommand(String command, String[] args) {
+			running = false;
+			System.out.println("Goodbye!");
+			return false;
+		}
+		  
+	  });
     start();
     
   }

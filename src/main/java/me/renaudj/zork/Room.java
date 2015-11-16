@@ -49,7 +49,15 @@ public class Room {
         return name;
     }
 
+    public void removeItem(Item i){
+        items.remove(i);
+    }
+
     public String getDescription(){
         return description;
+    }
+
+    public boolean hasItems(){
+        return items.size() > 0;
     }
 }

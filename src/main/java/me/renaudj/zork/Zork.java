@@ -6,28 +6,30 @@ import java.util.Scanner;
 
 public class Zork {
 
-    public boolean running = false;
-    public CommandHandler commandHandler;
-    public List<Item> inventory;
-    public Room currentRoom;
-
     public final Room room1 = new Room("Room1", Lang.room1);
     public final Room room2 = new Room("Room2", Lang.room2);
-
-    public Object currentView = null;
-
+    public boolean running = false;
+    public CommandHandler commandHandler;
+    private Player player;
+    
     public Zork() {
         commandHandler = new CommandHandler(this);
-        this.inventory = new ArrayList<Item>();
+        player = new Player();
         registerCommands();
         setRoomExits();
         addItemsToRooms();
         start();
     }
 
+    public static void main(String[] args) {
+
+        new Zork();
+
+    }
+
     public void goToRoom(Room room) {
-        currentRoom = room;
-        currentView = room;
+        player.setCurrentRoom(room);
+        player.setCurrentView(room);
         System.out.println(room.getDescription());
         if(room.hasItems()){
             System.out.print("You see");
@@ -67,9 +69,16 @@ public class Zork {
 
             public boolean onCommand(String command, String[] args) {
                 if (args.length == 1) {
+                    if(Direction.exists(args[0])){
                     Direction d = Direction.valueOf(args[0].toUpperCase());
-                    goToRoom(currentRoom.getExit(d));
+                        if(player.getCurrentRoom().hasExit(d))
+                    goToRoom(player.getCurrentRoom().getExit(d));
+                        else
+                        System.out.println("There is no exit in that direction.");
                     return true;
+                    } else {
+                        System.out.println("Your choices are north, south, east, west, up, down.");
+                    }
                 } else {
                     System.out.println("I don't understand.. do you mean \"go north\"?");
                 }
@@ -81,41 +90,40 @@ public class Zork {
 
             public boolean onCommand(String command, String[] args) {
                 if (args.length > 0) {
-                    if(currentView instanceof Room){
+                    if(player.getCurrentView() instanceof Room){
                         String comm = "";
                         for(int i = 0; i < args.length; i++){
                             comm += args[i] + " ";
                         }
                         comm = comm.trim();
-                        for(Item item : ((Room) currentView).getItems()){
+                        for(Item item : ((Room) player.getCurrentView()).getItems()){
                             if(item.getName().toLowerCase().equals(comm.toLowerCase())){
                                 if(item.getWeight() == -1){
                                     System.out.println("You can't take that!");
                                     return false;
                                 }
-                                inventory.add(item);
-                                Item i = item;
-                                ((Room) currentView).removeItem(item);
-                                System.out.println("Took " + i.getName());
+                                player.getInventory().add(item);
+                                System.out.println("Took " + item.getName());
+                                ((Room) player.getCurrentView()).removeItem(item);
                                 return true;
                             }
                         }
-                    } else if(currentView instanceof Container){
+                    } else if(player.getCurrentView() instanceof Container){
                         String comm = "";
                         for(int i = 0; i < args.length; i++){
                             comm += args[i] + " ";
                         }
                         comm = comm.trim();
-                        for(Item item : ((Container) currentView).getItems()){
+                        for(Item item : ((Container) player.getCurrentView()).getItems()){
 
                             if(item.getName().toLowerCase().equals(comm.toLowerCase())){
                                 if(item.getWeight() == -1){
                                     System.out.println("You can't take that!");
                                     return false;
                                 }
-                                inventory.add(item);
+                                player.getInventory().add(item);
                                 Item i = item;
-                                ((Container) currentView).removeItem(item);
+                                ((Container) player.getCurrentView()).removeItem(item);
                                 System.out.println("Took " + i.getName());
                                 return true;
                             }
@@ -134,14 +142,14 @@ public class Zork {
             public boolean onCommand(String command, String[] args) {
                 if (args.length == 1) {
                     List<Container> containers = new ArrayList<Container>();
-                    for(Item i : currentRoom.getItems()){
+                    for(Item i : player.getCurrentRoom().getItems()){
                         if(i instanceof Container){
                             containers.add((Container)i);
                         }
 
                         for(Container cont : containers){
                             if(cont.getName().toLowerCase().equals(args[0].toLowerCase())){
-                                currentView = cont;
+                                player.setCurrentView(cont);
                                 System.out.print("You see");
                                 for(Item it : cont.getItems()){
                                     String o = ", a " + it.getName();
@@ -162,8 +170,8 @@ public class Zork {
         commandHandler.register("close", new Command() {
 
             public boolean onCommand(String command, String[] args) {
-                if(currentView instanceof Container){
-                    currentView = currentRoom;
+                if(player.getCurrentView() instanceof Container){
+                    player.setCurrentView(player.getCurrentRoom());
                     System.out.println("You closed the container.");
                 }
                 return false;
@@ -174,7 +182,7 @@ public class Zork {
 
             public boolean onCommand(String command, String[] args) {
                 System.out.print("You have");
-                for(Item it : inventory){
+                for(Item it : player.getInventory()){
                     String o = ", a " + it.getName();
                     System.out.print(o.substring(1));
                 }
@@ -195,11 +203,5 @@ public class Zork {
         items.add(sword);
         Container chest = new Container("Chest", items);
         room2.addItem(chest);
-    }
-
-    public static void main(String[] args) {
-
-        new Zork();
-
     }
 }

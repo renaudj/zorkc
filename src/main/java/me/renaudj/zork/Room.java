@@ -22,6 +22,10 @@ public class Room {
         //this.monsters = new ArrayList<Monster>();
     }
 
+    public boolean hasExit(Direction d){
+        return exits.containsKey(d);
+    }
+
     public void addExit(Direction direction, Room room){
         this.exits.put(direction, room);
     }

@@ -89,4 +89,36 @@ public class Character {
     public void setDeathDrops(List<Item> deathDrops) {
         this.deathDrops = deathDrops;
     }
+
+    public void onDamage(Player p) {
+        if (getHp() > 0)
+            System.out.println(name + " : " + getHp() + "/" + getMaxHp() + " : Ouch!");
+        else {
+            onDeath(p);
+        }
+    }
+
+    public void onDeath(Player p) {
+        System.out.println("AAAARRRGGGHHH");
+        if (getRightHand() != null) {
+            deathDrops.add(getRightHand());
+        }
+        if (getLeftHand() != null) {
+            deathDrops.add(getLeftHand());
+        }
+        for (Item i : getDeathDrops()) {
+            p.getCurrentRoom().addItem(i);
+        }
+        if (getDeathDrops().size() > 0) {
+            System.out.print(name + " dropped");
+            for (Item i : p.getCurrentRoom().getItems()) {
+                String o = ", a " + i.getName();
+                System.out.print(o.substring(1));
+            }
+            System.out.println();
+        } else {
+            System.out.println(name + " didn't have any items.");
+        }
+        p.getCurrentRoom().removeCharacter(this);
+    }
 }

@@ -17,7 +17,7 @@ public class Zork {
         player = new Player();
         registerCommands();
         setRoomExits();
-        addItemsToRooms();
+        populateRooms();
         start();
     }
 
@@ -41,6 +41,18 @@ public class Zork {
     }
 
     public void registerCommands() {
+        commandHandler.register("attack", new Command() {
+
+            public boolean onCommand(String command, String[] args) {
+                if (args.length == 1) {
+                    if (player.getCurrentRoom().hasCharacter(args[0])) {
+                        player.attack(player.getCurrentRoom().getCharacter(args[0]));
+                    }
+                }
+                return true;
+            }
+
+        });
         commandHandler.register("quit", new Command() {
 
             public boolean onCommand(String command, String[] args) {
@@ -69,6 +81,49 @@ public class Zork {
                 }
                 return false;
             }
+        });
+
+        commandHandler.register("equip", new Command() {
+
+            public boolean onCommand(String command, String[] args) {
+                if (args.length > 0) {
+                    String hand = args[args.length - 1];
+                    String item = "";
+                    if (!hand.equalsIgnoreCase("right") && !hand.equalsIgnoreCase("left")) {
+                        System.out.println("Use a right hand or left hand!");
+                        return false;
+                    }
+                    for (int i = 0; i < args.length - 1; i++) {
+                        item += " " + args[i];
+                    }
+                    item = item.trim();
+                    if (!player.hasItem(item)) {
+                        System.out.println("You do not have a " + item);
+                        return false;
+                    }
+                    Item item1 = player.getItem(item);
+                    if (hand.equalsIgnoreCase("right")) {
+                        if (player.getRightHand() == null) {
+                            player.setRightHand(item1);
+                        } else {
+                            player.addItem(player.getRightHand());
+                            player.setRightHand(item1);
+                        }
+                    } else if (hand.equalsIgnoreCase("left")) {
+                        if (player.getLeftHand() == null) {
+                            player.setLeftHand(item1);
+                        } else {
+                            player.addItem(player.getLeftHand());
+                            player.setLeftHand(item1);
+                        }
+                    }
+
+                    player.removeItem(item1);
+                    System.out.println("Equipped " + item1.getName() + " to " + hand + " hand.");
+                }
+                return true;
+            }
+
         });
 
         commandHandler.register("take", new Command() {
@@ -136,11 +191,11 @@ public class Zork {
                             if (cont.getName().toLowerCase().equals(args[0].toLowerCase())) {
                                 player.setCurrentView(cont);
                                 System.out.print("You see");
+                                String o = "";
                                 for (Item it : cont.getItems()) {
-                                    String o = ", a " + it.getName();
-                                    System.out.print(o.substring(1));
+                                    o += ", a " + it.getName();
                                 }
-                                System.out.println();
+                                System.out.println(o.substring(1));
                             }
                         }
                     }
@@ -166,12 +221,15 @@ public class Zork {
         commandHandler.register("inventory", new Command() {
 
             public boolean onCommand(String command, String[] args) {
+                if (player.getInventory().size() > 0) {
                 System.out.print("You have");
+                    String o = "";
                 for (Item it : player.getInventory()) {
-                    String o = ", a " + it.getName();
-                    System.out.print(o.substring(1));
+                    o += ", a " + it.getName();
                 }
-                System.out.println();
+                    System.out.println(o.substring(1));
+                    return true;
+            }
                 return false;
             }
         });
@@ -182,11 +240,15 @@ public class Zork {
         room2.addExit(Direction.DOWN, room1);
     }
 
-    public void addItemsToRooms() {
+    public void populateRooms() {
         Weapon sword = new Weapon("Divining Sword", 1000, 20, "Sword of the gods.", 10000, 20);
         List<Item> items = new ArrayList<Item>();
         items.add(sword);
         Container chest = new Container("Chest", items);
         room2.addItem(chest);
+
+        Character retard = new Character("Retard", 4, "CRICKEM NIGFOPS!");
+        retard.setRightHand(new Item("Dildo", 0, 1, "Penetrate them all!"));
+        room1.addCharacter(retard);
     }
 }

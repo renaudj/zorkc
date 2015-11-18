@@ -70,4 +70,37 @@ public class Room {
     public boolean hasItems() {
         return items.size() > 0;
     }
+
+    public boolean hasCharacters() {
+        return characters.size() > 0;
+    }
+
+    public boolean hasCharacter(String name) {
+        for (Character c : characters) {
+            if (c.getName().equalsIgnoreCase(name))
+                return true;
+        }
+        return false;
+    }
+
+    public Character getCharacter(String name) {
+        if (hasCharacter(name)) {
+            for (Character c : characters) {
+                if (c.getName().equalsIgnoreCase(name))
+                    return c;
+
+            }
+        }
+        return null;
+    }
+
+    public void addCharacter(Character character) {
+        characters.add(character);
+    }
+
+    public void removeCharacter(Character character) {
+        characters.remove(character);
+    }
+
+
 }

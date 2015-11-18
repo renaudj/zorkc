@@ -72,6 +72,40 @@ public class Zork {
             }
 
         });
+        commandHandler.register("unequip", new Command() {
+
+            public boolean onCommand(String command, String[] args) {
+                if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("right")) {
+                        if (player.getRightHand() != null) {
+                            player.addItem(player.getRightHand());
+                            player.setRightHand(null);
+                            System.out.println("Unequipped right hand.");
+                        }
+                    } else if (args[0].equalsIgnoreCase("left")) {
+                        if (player.getLeftHand() != null) {
+                            player.addItem(player.getLeftHand());
+                            player.setLeftHand(null);
+                            System.out.println("Unequipped left hand.");
+                        }
+                    } else {
+                        System.out.println("Please select a hand! right/left");
+                    }
+                } else {
+                    if (player.getRightHand() != null) {
+                        player.addItem(player.getRightHand());
+                        player.setRightHand(null);
+                    }
+                    if (player.getLeftHand() != null) {
+                        player.addItem(player.getLeftHand());
+                        player.setLeftHand(null);
+                    }
+                    System.out.println("Unequipped both hands.");
+                }
+                return true;
+            }
+
+        });
         commandHandler.register("go", new Command() {
 
             public boolean onCommand(String command, String[] args) {

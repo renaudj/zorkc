@@ -10,58 +10,64 @@ public class Room {
     private String name;
     private String description;
     private ArrayList<Item> items;
-    //TODO Implement monsters
-    //private ArrayList<Monster> monsters;
+    private ArrayList<Character> characters;
 
-    public Room(String name, String description){
+    public Room(String name, String description) {
         this.name = name;
         this.description = description;
         this.exits = new HashMap<Direction, Room>();
         this.items = new ArrayList<Item>();
-        //TODO Implement monsters
-        //this.monsters = new ArrayList<Monster>();
+        this.characters = new ArrayList<Character>();
     }
 
-    public boolean hasExit(Direction d){
+    public ArrayList<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(ArrayList<Character> characters) {
+        this.characters = characters;
+    }
+
+    public boolean hasExit(Direction d) {
         return exits.containsKey(d);
     }
 
-    public void addExit(Direction direction, Room room){
+    public void addExit(Direction direction, Room room) {
         this.exits.put(direction, room);
     }
 
-    public void addItem(Item i){
+    public void addItem(Item i) {
         items.add(i);
     }
 
-    public List<Item> getItems(){
+    public List<Item> getItems() {
         return items;
     }
 
-    public Map<Direction, Room> getExits(){
+    public Map<Direction, Room> getExits() {
         return exits;
     }
 
-    public Room getExit(Direction direction){
-        if(exits.containsKey(direction))
-        return exits.get(direction);
+    public Room getExit(Direction direction) {
+        if (exits.containsKey(direction))
+            return exits.get(direction);
         else
             return null;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void removeItem(Item i){
+    public void removeItem(Item i) {
         items.remove(i);
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public boolean hasItems(){
+    public boolean hasItems() {
         return items.size() > 0;
     }
 }

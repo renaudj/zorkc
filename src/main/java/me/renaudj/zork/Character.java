@@ -17,6 +17,15 @@ public class Character {
     private Item leftHand;
     private Item rightHand;
 
+    public Character(String name, int maxHp, String description) {
+        this.name = name;
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+        this.description = description;
+        this.inventory = new ArrayList<Item>();
+        this.deathDrops = new ArrayList<Item>();
+    }
+
     public Item getLeftHand() {
         return leftHand;
     }
@@ -79,15 +88,5 @@ public class Character {
 
     public void setDeathDrops(List<Item> deathDrops) {
         this.deathDrops = deathDrops;
-    }
-
-    public Character(String name, int maxHp, String description)
-    {
-        this.name = name;
-        this.maxHp = maxHp;
-        this.hp = maxHp;
-        this.description = description;
-        this.inventory = new ArrayList<Item>();
-        this.deathDrops = new ArrayList<Item>();
     }
 }

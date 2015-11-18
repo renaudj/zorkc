@@ -14,6 +14,11 @@ public class Player {
     private Item leftHand = null;
     private Item rightHand = null;
 
+    public Player() {
+        this.inventory = new ArrayList<Item>();
+        this.hp = 100;
+    }
+
     public Item getLeftHand() {
         return leftHand;
     }
@@ -30,36 +35,46 @@ public class Player {
         this.rightHand = rightHand;
     }
 
+    public int getHP() {
+        return this.hp;
+    }
+
     public void setHP(int hp) {
         this.hp = hp;
     }
 
-    public Player(){
-        this.inventory = new ArrayList<Item>();
-        this.hp = 100;
-    }
-
-    public void setCurrentRoom(Room room){
-        this.currentRoom = room;
-    }
-
-    public void setCurrentView(Object view){
-        this.currentView = view;
-    }
-
-    public int getHP(){
-        return this.hp;
-    }
-
-    public Room getCurrentRoom(){
+    public Room getCurrentRoom() {
         return this.currentRoom;
     }
 
-    public Object getCurrentView(){
+    public void setCurrentRoom(Room room) {
+        this.currentRoom = room;
+    }
+
+    public Object getCurrentView() {
         return this.currentView;
     }
 
-    public List<Item> getInventory(){
+    public void setCurrentView(Object view) {
+        this.currentView = view;
+    }
+
+    public List<Item> getInventory() {
         return this.inventory;
+    }
+
+    public void goToRoom(Room room) {
+        setCurrentRoom(room);
+        setCurrentView(room);
+        System.out.println(room.getDescription());
+        if (room.hasItems()) {
+            System.out.print("You see");
+            for (Item i : room.getItems()) {
+                String o = ", a " + i.getName();
+                System.out.print(o.substring(1));
+            }
+            System.out.println();
+        } else
+            System.out.println("There's nothing intersting here.");
     }
 }

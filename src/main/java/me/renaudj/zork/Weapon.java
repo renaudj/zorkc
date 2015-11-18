@@ -6,25 +6,26 @@ package me.renaudj.zork;
 public class Weapon extends Item {
     private int power;
     private int precision;
-    public Weapon(String name, int maxDurability, int weight, String description, int power, int precision){
+
+    public Weapon(String name, int maxDurability, int weight, String description, int power, int precision) {
         super(name, maxDurability, weight, description);
         this.power = power;
         this.precision = precision;
     }
 
-    public int getPower(){
+    public int getPower() {
         return power;
     }
 
-    public void setPower(int power){
+    public void setPower(int power) {
         this.power = power;
     }
 
-    public int getPrecision(){
+    public int getPrecision() {
         return precision;
     }
 
-    public void setPrecision(int precision){
+    public void setPrecision(int precision) {
         this.precision = precision;
     }
 }

@@ -45,6 +45,10 @@ public class Room {
             return null;
     }
 
+    public boolean hasExit(Direction direction){
+        return exits.containsKey(direction);
+    }
+
     public String getName(){
         return name;
     }

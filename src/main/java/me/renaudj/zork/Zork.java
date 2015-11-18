@@ -68,7 +68,10 @@ public class Zork {
             public boolean onCommand(String command, String[] args) {
                 if (args.length == 1) {
                     Direction d = Direction.valueOf(args[0].toUpperCase());
+                    if(currentRoom.hasExit(d))
                     goToRoom(currentRoom.getExit(d));
+                    else
+                    System.out.println("There's nowhere to go in that direction.");
                     return true;
                 } else {
                     System.out.println("I don't understand.. do you mean \"go north\"?");

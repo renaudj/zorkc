@@ -1,4 +1,6 @@
-package me.renaudj.zork;
+package me.renaudj.zork.commands;
+
+import me.renaudj.zork.Zork;
 
 import java.util.HashMap;
 

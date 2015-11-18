@@ -1,4 +1,7 @@
-package me.renaudj.zork;
+package me.renaudj.zork.room;
+
+import me.renaudj.zork.entity.Character;
+import me.renaudj.zork.items.Item;
 
 import java.util.ArrayList;
 import java.util.HashMap;

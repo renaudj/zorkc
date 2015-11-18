@@ -1,4 +1,8 @@
-package me.renaudj.zork;
+package me.renaudj.zork.entity;
+
+import me.renaudj.zork.items.Item;
+import me.renaudj.zork.items.Weapon;
+import me.renaudj.zork.room.Room;
 
 import java.util.ArrayList;
 import java.util.List;

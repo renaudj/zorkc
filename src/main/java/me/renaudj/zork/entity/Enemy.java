@@ -1,4 +1,4 @@
-package me.renaudj.zork;
+package me.renaudj.zork.entity;
 
 /**
  * Created by renaudj on 11/17/15.

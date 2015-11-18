@@ -1,4 +1,4 @@
-package me.renaudj.zork;
+package me.renaudj.zork.items;
 
 import java.util.List;
 

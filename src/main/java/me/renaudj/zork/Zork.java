@@ -1,5 +1,15 @@
 package me.renaudj.zork;
 
+import me.renaudj.zork.commands.Command;
+import me.renaudj.zork.commands.CommandHandler;
+import me.renaudj.zork.entity.Character;
+import me.renaudj.zork.entity.Player;
+import me.renaudj.zork.items.Container;
+import me.renaudj.zork.items.Item;
+import me.renaudj.zork.items.Weapon;
+import me.renaudj.zork.room.Direction;
+import me.renaudj.zork.room.Room;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -148,6 +158,8 @@ public class Zork {
                                 return true;
                             }
                         }
+                        System.out.println("There isn't a " + comm + " in this room!");
+                        return true;
                     } else if (player.getCurrentView() instanceof Container) {
                         String comm = "";
                         for (int i = 0; i < args.length; i++) {

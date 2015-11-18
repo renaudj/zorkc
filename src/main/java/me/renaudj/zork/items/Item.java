@@ -1,4 +1,4 @@
-package me.renaudj.zork;
+package me.renaudj.zork.items;
 
 public class Item {
     private String name;

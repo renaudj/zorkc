@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Zork {
-
+    //Create rooms here
     public final Room room1 = new Room("Room1", Lang.room1);
     public final Room room2 = new Room("Room2", Lang.room2);
+
+
     public boolean running = false;
     public CommandHandler commandHandler;
     private Player player;
@@ -68,6 +70,40 @@ public class Zork {
             public boolean onCommand(String command, String[] args) {
                 running = false;
                 System.out.println("Goodbye!");
+                return true;
+            }
+
+        });
+        commandHandler.register("unequip", new Command() {
+
+            public boolean onCommand(String command, String[] args) {
+                if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("right")) {
+                        if (player.getRightHand() != null) {
+                            player.addItem(player.getRightHand());
+                            player.setRightHand(null);
+                            System.out.println("Unequipped right hand.");
+                        }
+                    } else if (args[0].equalsIgnoreCase("left")) {
+                        if (player.getLeftHand() != null) {
+                            player.addItem(player.getLeftHand());
+                            player.setLeftHand(null);
+                            System.out.println("Unequipped left hand.");
+                        }
+                    } else {
+                        System.out.println("Please select a hand! right/left");
+                    }
+                } else {
+                    if (player.getRightHand() != null) {
+                        player.addItem(player.getRightHand());
+                        player.setRightHand(null);
+                    }
+                    if (player.getLeftHand() != null) {
+                        player.addItem(player.getLeftHand());
+                        player.setLeftHand(null);
+                    }
+                    System.out.println("Unequipped both hands.");
+                }
                 return true;
             }
 
@@ -202,12 +238,16 @@ public class Zork {
                         for (Container cont : containers) {
                             if (cont.getName().toLowerCase().equals(args[0].toLowerCase())) {
                                 player.setCurrentView(cont);
-                                System.out.print("You see");
+                                if (cont.getItems().size() > 0) {
+                                    System.out.print("You see");
                                 String o = "";
                                 for (Item it : cont.getItems()) {
                                     o += ", a " + it.getName();
                                 }
                                 System.out.println(o.substring(1));
+                                } else {
+                                    System.out.println("This " + cont.getName() + " is empty.");
+                                }
                             }
                         }
                     }
@@ -247,20 +287,22 @@ public class Zork {
         });
     }
 
+
+    //Assign neighboring rooms to the exits in each direction desired
     public void setRoomExits() {
         room1.addExit(Direction.UP, room2);
         room2.addExit(Direction.DOWN, room1);
     }
 
     public void populateRooms() {
-        Weapon sword = new Weapon("Divining Sword", 1000, 20, "Sword of the gods.", 10000, 20);
-        List<Item> items = new ArrayList<Item>();
-        items.add(sword);
-        Container chest = new Container("Chest", items);
-        room2.addItem(chest);
+        Weapon sword = new Weapon("Divining Sword", 1000, 20, "Sword of the gods.", 10000, 20); //create item of type Weapon
+        List<Item> items = new ArrayList<Item>(); //create list of items
+        items.add(sword); //add the sword to the list
+        Container chest = new Container("Chest", items); //create a new chest, filled with the list of items
+        room2.addItem(chest); //add the chest to the list of items in room 2
 
-        Character retard = new Character("Retard", 4, "CRICKEM NIGFOPS!");
-        retard.setRightHand(new Item("Dildo", 0, 1, "Penetrate them all!"));
-        room1.addCharacter(retard);
+        Character retard = new Character("Retard", 4, "CRICKEM NIGFOPS!"); //Create a new character called retard with a max HP of 4, and the caption CRICKEM NIGFOPS
+        retard.setRightHand(new Item("Dildo", 0, 1, "Penetrate them all!")); //Create a new item called dildo with max durability of 0, a weight of 1 unit, and the description: Penetrate them all!
+        room1.addCharacter(retard);//add the character to room1
     }
 }

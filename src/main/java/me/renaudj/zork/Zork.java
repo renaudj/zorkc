@@ -238,12 +238,16 @@ public class Zork {
                         for (Container cont : containers) {
                             if (cont.getName().toLowerCase().equals(args[0].toLowerCase())) {
                                 player.setCurrentView(cont);
-                                System.out.print("You see");
+                                if (cont.getItems().size() > 0) {
+                                    System.out.print("You see");
                                 String o = "";
                                 for (Item it : cont.getItems()) {
                                     o += ", a " + it.getName();
                                 }
                                 System.out.println(o.substring(1));
+                                } else {
+                                    System.out.println("This " + cont.getName() + " is empty.");
+                                }
                             }
                         }
                     }

@@ -62,13 +62,13 @@ public class Inventory {
         if (itemsl.size() > 0) {
             addItem(itemsl.get(0));
             itemsl.remove(0);
-            itemsl.add(i);
             removeItem(i);
+            itemsl.add(i);
             items.put(slot, itemsl);
         } else {
+            removeItem(i);
             itemsl.add(i);
             items.put(slot, itemsl);
-            removeItem(i);
         }
     }
 

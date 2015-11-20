@@ -85,7 +85,7 @@ public class Zork {
                         System.out.println("Unequipped right hand.");
                     } else if (args[0].equalsIgnoreCase("left")) {
                         player.getInventory().unequip(InventorySlotType.LEFT_HAND);
-                        System.out.println("Unequipped right hand.");
+                        System.out.println("Unequipped left hand.");
                     } else {
                         System.out.println("Please select a hand! right/left");
                     }

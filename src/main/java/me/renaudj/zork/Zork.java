@@ -80,19 +80,19 @@ public class Zork {
 
             public boolean onCommand(String command, String[] args) {
                 if (args.length == 1) {
-                    if (args[0].equalsIgnoreCase("right")) {
-                        player.getInventory().unequip(InventorySlotType.RIGHT_HAND);
-                        System.out.println("Unequipped right hand.");
-                    } else if (args[0].equalsIgnoreCase("left")) {
-                        player.getInventory().unequip(InventorySlotType.LEFT_HAND);
-                        System.out.println("Unequipped left hand.");
-                    } else {
-                        System.out.println("Please select a hand! right/left");
+                    for (InventorySlotType slot : InventorySlotType.values()) {
+                        if (args[0].equalsIgnoreCase(slot.name())) {
+                            player.getInventory().unequip(slot);
+                            System.out.println("Unequipped " + slot.name().toLowerCase().replace("_", " "));
+                        }
                     }
                 } else {
-                    player.getInventory().unequip(InventorySlotType.RIGHT_HAND);
-                    player.getInventory().unequip(InventorySlotType.LEFT_HAND);
-                    System.out.println("Unequipped both hands.");
+                    for (InventorySlotType slot : InventorySlotType.values()) {
+                        if (!slot.equals(InventorySlotType.INVENTORY)) {
+                            player.getInventory().unequip(slot);
+                        }
+                    }
+                    System.out.println("Unequipped all equippable slots.");
                 }
                 return true;
             }

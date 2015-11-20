@@ -63,10 +63,12 @@ public class Inventory {
             addItem(itemsl.get(0));
             itemsl.remove(0);
             itemsl.add(i);
+            removeItem(i);
             items.put(slot, itemsl);
         } else {
             itemsl.add(i);
             items.put(slot, itemsl);
+            removeItem(i);
         }
     }
 

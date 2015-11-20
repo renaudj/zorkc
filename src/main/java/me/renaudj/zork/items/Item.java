@@ -42,4 +42,8 @@ public class Item {
     public int getWeight() {
         return weight;
     }
+
+    public boolean use(Player p) {
+        return true;
+    }
 }

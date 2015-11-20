@@ -14,10 +14,12 @@ public class Player {
     private Room currentRoom;
     private Object currentView = null;
     private int hp;
+    private int maxHp;
 
     public Player() {
         this.inventory = new Inventory();
         this.hp = 100;
+        this.maxHp = 100;
     }
 
     public Item getLeftHand() {
@@ -35,6 +37,14 @@ public class Player {
 
     public void setHP(int hp) {
         this.hp = hp;
+    }
+
+    public int getMaxHP() {
+        return this.maxHp;
+    }
+
+    public void setMaxHP(int hp) {
+        this.maxHp = hp;
     }
 
     public Room getCurrentRoom() {

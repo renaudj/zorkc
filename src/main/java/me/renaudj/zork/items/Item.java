@@ -1,5 +1,7 @@
 package me.renaudj.zork.items;
 
+import me.renaudj.zork.entity.Player;
+
 public class Item {
     private String name;
     private int durability;

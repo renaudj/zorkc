@@ -1,42 +1,32 @@
 package me.renaudj.zork.entity;
 
+import me.renaudj.zork.items.Inventory;
+import me.renaudj.zork.items.InventorySlotType;
 import me.renaudj.zork.items.Item;
 import me.renaudj.zork.items.Weapon;
 import me.renaudj.zork.room.Room;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by renaudj on 11/17/15.
  */
 public class Player {
-    private List<Item> inventory;
+    private Inventory inventory;
     private Room currentRoom;
     private Object currentView = null;
     private int hp;
-    private Item leftHand = null;
-    private Item rightHand = null;
 
     public Player() {
-        this.inventory = new ArrayList<Item>();
+        this.inventory = new Inventory();
         this.hp = 100;
     }
 
     public Item getLeftHand() {
-        return leftHand;
+        return getInventory().getItemInSlot(InventorySlotType.LEFT_HAND);
     }
 
-    public void setLeftHand(Item leftHand) {
-        this.leftHand = leftHand;
-    }
 
     public Item getRightHand() {
-        return rightHand;
-    }
-
-    public void setRightHand(Item rightHand) {
-        this.rightHand = rightHand;
+        return getInventory().getItemInSlot(InventorySlotType.RIGHT_HAND);
     }
 
     public int getHP() {
@@ -63,41 +53,8 @@ public class Player {
         this.currentView = view;
     }
 
-    public List<Item> getInventory() {
+    public Inventory getInventory() {
         return this.inventory;
-    }
-
-    public void addItem(Item i) {
-        inventory.add(i);
-    }
-
-    public void removeItem(String name) {
-        if (hasItem(name)) {
-            for (Item i : inventory) {
-                if (i.getName().equalsIgnoreCase(name))
-                    inventory.remove(i);
-            }
-        }
-    }
-
-    public void removeItem(Item i) {
-        inventory.remove(i);
-    }
-
-    public Item getItem(String name) {
-        for (Item i : inventory) {
-            if (i.getName().equalsIgnoreCase(name))
-                return i;
-        }
-        return null;
-    }
-
-    public boolean hasItem(String name) {
-        for (Item i : inventory) {
-            if (i.getName().equalsIgnoreCase(name))
-                return true;
-        }
-        return false;
     }
 
     public void goToRoom(Room room) {
@@ -132,6 +89,7 @@ public class Player {
                     c.setHp(c.getHp() - 1);
                 }
             if (getLeftHand() != null)
+
                 if (getLeftHand() instanceof Weapon) {
                     c.setHp(c.getHp() - ((Weapon) getLeftHand()).getPower());
                     c.getLeftHand().setDurability(c.getLeftHand().getDurability() - 1);

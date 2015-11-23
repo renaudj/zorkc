@@ -14,6 +14,8 @@ public class Room {
     private String description;
     private ArrayList<Item> items;
     private ArrayList<Character> characters;
+    private int lockCode;
+    private Item requiredItem;
 
     public Room(String name, String description) {
         this.name = name;
@@ -21,6 +23,35 @@ public class Room {
         this.exits = new HashMap<Direction, Room>();
         this.items = new ArrayList<Item>();
         this.characters = new ArrayList<Character>();
+        this.lockCode = 0;
+        this.requiredItem = null;
+    }
+
+    public Room(String name, String description, int lockCode) {
+        this.name = name;
+        this.description = description;
+        this.exits = new HashMap<Direction, Room>();
+        this.items = new ArrayList<Item>();
+        this.characters = new ArrayList<Character>();
+        this.lockCode = lockCode;
+        this.requiredItem = null;
+    }
+    public Room(String name, String description, int lockCode, Item requiredItem) {
+        this.name = name;
+        this.description = description;
+        this.exits = new HashMap<Direction, Room>();
+        this.items = new ArrayList<Item>();
+        this.characters = new ArrayList<Character>();
+        this.lockCode = lockCode;
+        this.requiredItem = requiredItem;
+    }
+
+    public Item getRequiredItem(){
+        return this.requiredItem;
+    }
+
+    public void setRequiredItem(Item i){
+        this.requiredItem = i;
     }
 
     public ArrayList<Character> getCharacters() {

@@ -69,9 +69,14 @@ public class Zork {
         commandHandler.register("attack", new Command() {
 
             public boolean onCommand(String command, String[] args) {
-                if (args.length == 1) {
-                    if (player.getCurrentRoom().hasCharacter(args[0])) {
-                        player.attack(player.getCurrentRoom().getCharacter(args[0]));
+                if (args.length > 0) {
+                    String name = "";
+                    for(String s : args){
+                        name += " " + s;
+                    }
+                    name = name.trim();
+                    if (player.getCurrentRoom().hasCharacter(name)) {
+                        player.attack(player.getCurrentRoom().getCharacter(name));
                     }
                 }
                 return true;
@@ -306,14 +311,14 @@ public class Zork {
     }
 
     public void populateRooms() {
-        Weapon sword = new Weapon("Divining Sword", 1000, 20, "Sword of the gods.", 10000, 20); //create item of type Weapon
-        List<Item> items = new ArrayList<Item>(); //create list of items
-        items.add(sword); //add the sword to the list
-        Container chest = new Container("Chest", items); //create a new chest, filled with the list of items
-        room2.addItem(chest); //add the chest to the list of items in room 2
+        Weapon sword = new Weapon("Divining Sword", 1000, 20, "Sword of the gods.", 10000, 20);
+        List<Item> items = new ArrayList<Item>();
+        items.add(sword);
+        Container chest = new Container("Chest", items);
+        room2.addItem(chest);
 
-        Enemy retard = new Enemy("Retard", 4, "CRICKEM NIGFOPS!"); //Create a new character called retard with a max HP of 4, and the caption CRICKEM NIGFOPS
-        retard.getInventory().equip(InventorySlotType.RIGHT_HAND, new Weapon("Dildo", 0, 1, "Penetrate them all!", 25, 0)); //Create a new item called dildo with max durability of 0, a weight of 1 unit, and the description: Penetrate them all!
-        room1.addCharacter(retard);//add the character to r1a
+        Enemy oldMan = new Enemy("Old Man", 4, "Description");
+        oldMan.getInventory().addItem(new Weapon("Lock Pick", 0, 1, "Picks locks", 0, 0));
+        room1.addCharacter(oldMan);
     }
 }

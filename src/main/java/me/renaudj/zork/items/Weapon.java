@@ -1,5 +1,7 @@
 package me.renaudj.zork.items;
 
+import me.renaudj.zork.entity.EntityLiving;
+
 /**
  * Created by renaudj on 11/16/15.
  */
@@ -27,5 +29,9 @@ public class Weapon extends Item {
 
     public void setPrecision(int precision) {
         this.precision = precision;
+    }
+
+    public void activateAbility(EntityLiving p, EntityLiving c) {
+
     }
 }

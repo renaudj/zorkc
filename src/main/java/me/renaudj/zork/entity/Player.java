@@ -1,7 +1,9 @@
 package me.renaudj.zork.entity;
 
+import me.renaudj.zork.Zork;
+import me.renaudj.zork.events.PlayerAttackEvent;
+import me.renaudj.zork.events.PlayerDamageEvent;
 import me.renaudj.zork.items.Inventory;
-import me.renaudj.zork.items.InventorySlotType;
 import me.renaudj.zork.items.Item;
 import me.renaudj.zork.items.Weapon;
 import me.renaudj.zork.room.Room;
@@ -9,7 +11,7 @@ import me.renaudj.zork.room.Room;
 /**
  * Created by renaudj on 11/17/15.
  */
-public class Player {
+public class Player extends EntityLiving {
     private Inventory inventory;
     private Room currentRoom;
     private Object currentView = null;
@@ -17,34 +19,7 @@ public class Player {
     private int maxHp;
 
     public Player() {
-        this.inventory = new Inventory();
-        this.hp = 100;
-        this.maxHp = 100;
-    }
-
-    public Item getLeftHand() {
-        return getInventory().getItemInSlot(InventorySlotType.LEFT_HAND);
-    }
-
-
-    public Item getRightHand() {
-        return getInventory().getItemInSlot(InventorySlotType.RIGHT_HAND);
-    }
-
-    public int getHP() {
-        return this.hp;
-    }
-
-    public void setHP(int hp) {
-        this.hp = hp;
-    }
-
-    public int getMaxHP() {
-        return this.maxHp;
-    }
-
-    public void setMaxHP(int hp) {
-        this.maxHp = hp;
+        super("", 100);
     }
 
     public Room getCurrentRoom() {
@@ -61,10 +36,6 @@ public class Player {
 
     public void setCurrentView(Object view) {
         this.currentView = view;
-    }
-
-    public Inventory getInventory() {
-        return this.inventory;
     }
 
     public void goToRoom(Room room) {
@@ -89,26 +60,50 @@ public class Player {
         }
     }
 
-    public void attack(Character c) {
+    public void attack(EntityLiving c) {
+        super.attack(c);
+        int damage = 0;
+        Item i = null;
         if (getRightHand() != null || getLeftHand() != null) {
             if (getRightHand() != null)
                 if (getRightHand() instanceof Weapon) {
-                    c.setHp(c.getHp() - ((Weapon) getRightHand()).getPower());
-                    c.getRightHand().setDurability(c.getRightHand().getDurability() - 1);
+                    damage = ((Weapon) getRightHand()).getPower();
+                    i = (Weapon) getRightHand();
                 } else {
-                    c.setHp(c.getHp() - 1);
+                    damage = 1;
                 }
             if (getLeftHand() != null)
-
                 if (getLeftHand() instanceof Weapon) {
-                    c.setHp(c.getHp() - ((Weapon) getLeftHand()).getPower());
-                    c.getLeftHand().setDurability(c.getLeftHand().getDurability() - 1);
+                    damage = ((Weapon) getLeftHand()).getPower();
+                    i = (Weapon) getLeftHand();
                 } else {
-                    c.setHp(c.getHp() - 1);
+                    damage = 1;
                 }
         } else {
-            c.setHp(c.getHp() - 1);
+            damage = 1;
         }
-        c.onDamage(this);
+        Zork.getInstance().getEventExecutor().executeEvent(new PlayerAttackEvent(this, damage, c, i));
+    }
+
+    public void onDamage(EntityLiving p) {
+        super.onDamage(p);
+        int damage = 0;
+        Item i = null;
+        if (p.getRightHand() != null || p.getLeftHand() != null) {
+            if (p.getRightHand() != null)
+                i = p.getRightHand();
+            if (p.getLeftHand() != null)
+                i = p.getLeftHand();
+            if (i instanceof Weapon) {
+                damage = ((Weapon) i).getPower();
+            } else {
+                damage = 1;
+            }
+        }
+        Zork.getInstance().getEventExecutor().executeEvent(new PlayerDamageEvent(this, damage, p, i));
+    }
+
+    public void onDeath(EntityLiving p) {
+
     }
 }

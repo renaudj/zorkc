@@ -2,8 +2,10 @@ package me.renaudj.zork;
 
 import me.renaudj.zork.commands.Command;
 import me.renaudj.zork.commands.CommandHandler;
-import me.renaudj.zork.entity.Character;
+import me.renaudj.zork.entity.Enemy;
 import me.renaudj.zork.entity.Player;
+import me.renaudj.zork.events.EventExecutor;
+import me.renaudj.zork.events.PlayerListener;
 import me.renaudj.zork.items.Container;
 import me.renaudj.zork.items.InventorySlotType;
 import me.renaudj.zork.items.Item;
@@ -16,28 +18,38 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Zork {
+    private static Zork instance;
     //Create rooms here
     public final Room room1 = new Room("Room1", Lang.r1a);
     public final Room room2 = new Room("Room2", Lang.r2a);
-
-
     public boolean running = false;
     public CommandHandler commandHandler;
     private Player player;
-
+    private EventExecutor events;
     public Zork() {
+        instance = this;
         commandHandler = new CommandHandler(this);
+        events = new EventExecutor();
         player = new Player();
+        events.registerListener(new PlayerListener());
         registerCommands();
         setRoomExits();
         populateRooms();
         start();
     }
 
+    public static Zork getInstance() {
+        return instance;
+    }
+
     public static void main(String[] args) {
 
         new Zork();
 
+    }
+
+    public EventExecutor getEventExecutor() {
+        return this.events;
     }
 
     public void start() {
@@ -66,6 +78,24 @@ public class Zork {
             }
 
         });
+        commandHandler.register("use", new Command() {
+
+            public boolean onCommand(String command, String[] args) {
+                if (args.length == 1) {
+                    if (player.getInventory().hasItem(args[0])) {
+                        Item item = player.getInventory().getItem(args[0]);
+                        item.use(player);
+                    }
+                } else if (args.length == 2) {
+                    if (player.getInventory().hasItem(args[0])) {
+                        Item item = player.getInventory().getItem(args[0]);
+                        item.use(player);
+                    }
+                }
+                return true;
+            }
+
+        });
         commandHandler.register("quit", new Command() {
 
             public boolean onCommand(String command, String[] args) {
@@ -75,7 +105,6 @@ public class Zork {
             }
 
         });
-        //TODO Add other inventory slots to command
         commandHandler.register("unequip", new Command() {
 
             public boolean onCommand(String command, String[] args) {
@@ -118,16 +147,28 @@ public class Zork {
                 return false;
             }
         });
-        //TODO Add other inventory slots to equip command
         commandHandler.register("equip", new Command() {
 
             public boolean onCommand(String command, String[] args) {
                 if (args.length > 0) {
-                    String hand = args[args.length - 1];
+                    String slt = args[args.length - 1];
                     String item = "";
-                    if (!hand.equalsIgnoreCase("right") && !hand.equalsIgnoreCase("left")) {
-                        System.out.println("Use a right hand or left hand!");
-                        return false;
+                    InventorySlotType slot2 = null;
+                    boolean worked = false;
+                    for (InventorySlotType slot : InventorySlotType.values()) {
+                        if (slot.name().equalsIgnoreCase(slt) || slot.isAlias(slt)) {
+                            if (slot.equals(InventorySlotType.INVENTORY)) {
+                                System.out.println("Please choose an equippable slot!");
+                                break;
+                            }
+                            slot2 = slot;
+                            worked = true;
+                            break;
+                        }
+                    }
+                    if (!worked) {
+                        System.out.println("Please enter a valid slot!");
+                        return true;
                     }
                     for (int i = 0; i < args.length - 1; i++) {
                         item += " " + args[i];
@@ -138,18 +179,13 @@ public class Zork {
                         return false;
                     }
                     Item item1 = player.getInventory().getItem(item);
-                    if (hand.equalsIgnoreCase("right")) {
-                        player.getInventory().equip(InventorySlotType.RIGHT_HAND, item1);
-                    } else if (hand.equalsIgnoreCase("left")) {
-                        player.getInventory().equip(InventorySlotType.LEFT_HAND, item1);
-                    }
-                    System.out.println("Equipped " + item1.getName() + " to " + hand + " hand.");
+                    player.getInventory().equip(slot2, item1);
+                    System.out.println("Equipped " + item1.getName() + " to " + slot2.name().toLowerCase().replace("_", " "));
                 }
                 return true;
             }
 
         });
-
         commandHandler.register("take", new Command() {
 
             public boolean onCommand(String command, String[] args) {
@@ -170,7 +206,7 @@ public class Zork {
                                 System.out.println("Took " + item.getName());
                                 ((Room) player.getCurrentView()).removeItem(item);
                                 return true;
-                            }
+                            } else continue;
                         }
                         System.out.println("There isn't a " + comm + " in this room!");
                         return true;
@@ -192,8 +228,9 @@ public class Zork {
                                 ((Container) player.getCurrentView()).removeItem(item);
                                 System.out.println("Took " + i.getName());
                                 return true;
-                            }
+                            } else continue;
                         }
+                        System.out.println("There isn't a " + comm + " in this " + ((Container) player.getCurrentView()).getName() + "!");
                     }
                     return true;
                 } else {
@@ -202,7 +239,6 @@ public class Zork {
                 return false;
             }
         });
-
         commandHandler.register("open", new Command() {
 
             public boolean onCommand(String command, String[] args) {
@@ -236,18 +272,16 @@ public class Zork {
                 return false;
             }
         });
-
         commandHandler.register("close", new Command() {
 
             public boolean onCommand(String command, String[] args) {
                 if (player.getCurrentView() instanceof Container) {
+                    System.out.println("You closed the " + ((Container) player.getCurrentView()).getName() + ".");
                     player.setCurrentView(player.getCurrentRoom());
-                    System.out.println("You closed the container.");
                 }
                 return false;
             }
         });
-
         commandHandler.register("inventory", new Command() {
 
             public boolean onCommand(String command, String[] args) {
@@ -265,7 +299,6 @@ public class Zork {
         });
     }
 
-
     //Assign neighboring rooms to the exits in each direction desired
     public void setRoomExits() {
         room1.addExit(Direction.UP, room2);
@@ -279,8 +312,8 @@ public class Zork {
         Container chest = new Container("Chest", items); //create a new chest, filled with the list of items
         room2.addItem(chest); //add the chest to the list of items in room 2
 
-        Character retard = new Character("Retard", 4, "CRICKEM NIGFOPS!"); //Create a new character called retard with a max HP of 4, and the caption CRICKEM NIGFOPS
-        retard.setRightHand(new Item("Dildo", 0, 1, "Penetrate them all!")); //Create a new item called dildo with max durability of 0, a weight of 1 unit, and the description: Penetrate them all!
+        Enemy retard = new Enemy("Retard", 4, "CRICKEM NIGFOPS!"); //Create a new character called retard with a max HP of 4, and the caption CRICKEM NIGFOPS
+        retard.getInventory().equip(InventorySlotType.RIGHT_HAND, new Weapon("Dildo", 0, 1, "Penetrate them all!", 25, 0)); //Create a new item called dildo with max durability of 0, a weight of 1 unit, and the description: Penetrate them all!
         room1.addCharacter(retard);//add the character to r1a
     }
 }

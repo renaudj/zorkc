@@ -58,6 +58,8 @@ public class Player extends EntityLiving {
             }
             System.out.println();
         }
+        if(getCurrentRoom().getName() !="Room0" )
+        System.out.println(getCurrentRoom().getExitString());
     }
 
     public void attack(EntityLiving c) {

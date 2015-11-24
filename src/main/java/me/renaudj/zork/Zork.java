@@ -20,8 +20,12 @@ import java.util.Scanner;
 public class Zork {
     private static Zork instance;
     //Create rooms here
-    public final Room room1 = new Room("Room1", Lang.r0);
-    public final Room room2 = new Room("Room2", Lang.r1a);
+    public final Room room0 = new Room("Room0", Lang.r0);
+    public final Room room1a = new Room("Room1a", Lang.r1a);
+    public final Room room1b = new Room("Room1b", Lang.r1b);
+    public final Room room2a = new Room("Room2a", Lang.r2a);
+    public final Room room2b = new Room("Room2b", Lang.r2b);
+    public final Room room3a = new Room("Room3a", Lang.r3a);
     public boolean running = false;
     public CommandHandler commandHandler;
     private Player player;
@@ -57,7 +61,7 @@ public class Zork {
         System.out.println(Lang.intro);
         running = true;
         Scanner userInput = new Scanner(System.in);
-        player.goToRoom(room1);
+        player.goToRoom(room0);
         while (running) {
             if (userInput.hasNextLine()) {
                 commandHandler.handle(userInput.nextLine());
@@ -306,8 +310,10 @@ public class Zork {
 
     //Assign neighboring rooms to the exits in each direction desired
     public void setRoomExits() {
-        room1.addExit(Direction.UP, room2);
-        room2.addExit(Direction.DOWN, room1);
+        room0.addExit(Direction.UP, room1a);
+        room1a.addExit(Direction.DOWN, room0);
+        room1a.addExit(Direction.EAST, room2a);
+        room1a.addExit(Direction.SOUTH, room1b);
     }
 
     public void populateRooms() {
@@ -315,10 +321,10 @@ public class Zork {
         List<Item> items = new ArrayList<Item>();
         items.add(sword);
         Container chest = new Container("Chest", items);
-        room2.addItem(chest);
+        room1a.addItem(chest);
 
-        Enemy oldMan = new Enemy("Old Man", 4, "Description");
+        Enemy oldMan = new Enemy("Old Man", 4, "[Insert Dialogue]");
         oldMan.getInventory().addItem(new Weapon("Lock Pick", 0, 1, "Picks locks", 0, 0));
-        room1.addCharacter(oldMan);
+        room0.addCharacter(oldMan);
     }
 }

@@ -9,4 +9,5 @@ public class Lang {
     public static String r2a = "Sector 2a.\nAfter continuing further you find a massive fence compiled of scrap and broken machines affectively arranged to keep something from getting in or even out?\nYou manage your way through a small gap in between sheet metal and barbed wire nearly losing a limb.";
     public static String r1b = "Sector 1b.\nManeuvering your way over piles of junk nearly impossible to walk on you spot a seemingly unpassable great wall of clutter.\n As you make your way closer you find a wrecked car built into the wall perfectly to climb through to the other side.";
     public static String r2b = "Sector 2b.\n";
+    public static String r3a = "Sector 3a.\n";
 }

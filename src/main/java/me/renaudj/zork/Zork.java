@@ -20,8 +20,8 @@ import java.util.Scanner;
 public class Zork {
     private static Zork instance;
     //Create rooms here
-    public final Room room1 = new Room("Room1", Lang.r1a);
-    public final Room room2 = new Room("Room2", Lang.r2a);
+    public final Room room1 = new Room("Room1", Lang.r0);
+    public final Room room2 = new Room("Room2", Lang.r1a);
     public boolean running = false;
     public CommandHandler commandHandler;
     private Player player;

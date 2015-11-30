@@ -49,7 +49,7 @@ public class Player extends EntityLiving {
         room.setRequiredItem(null);
         setCurrentRoom(room);
         setCurrentView(room);
-        System.out.println(room.getDescription());
+        System.out.println(room.getDescription() + "\n");
         if (room.hasItems()) {
             System.out.print("You see");
             for (Item i : room.getItems()) {
@@ -116,6 +116,6 @@ public class Player extends EntityLiving {
     }
 
     public void onDeath(EntityLiving p) {
-
+        System.out.println("You've died!");
     }
 }

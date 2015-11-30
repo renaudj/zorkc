@@ -14,4 +14,24 @@ public class Lang {
     public static String r1c = "Sector 1c.\nMoving your way into an opening you are suddenly ambushed by a pack of rabid cyber rabbits and are unable to find a way out.";
     public static String r2c = "Sector 2c.\nWith a sense of peace you stumble uppon a vivid meadow filled with beautiful and exotic flowers of all kinds with the sounds of birds chirping and streams flowing.";
     public static String r3c = "Sector 3c.\nAmbushed by a diglet pod in a field of massive boulders about ten feet tall each.";
+    public static String r4a = "Sector 4a.\n";
+    public static String r4b = "Sector 4b.\n";
+    public static String r4c = "Sector 4c.\n";
+    public static String r5a = "Sector 5a.\n";
+    public static String r5b = "Sector 5b.\n";
+    public static String r5c = "Sector 5c.\n";
+    public static String r6a = "Sector 6a.\n";
+    public static String r6b = "Sector 6b.\n";
+    public static String r6c = "Sector 6c.\n";
+    public static String r7a = "Sector 7a.\n";
+    public static String r7b = "Sector 7b.\n";
+    public static String r7c = "Sector 7c.\n";
+    public static String r8a = "Sector 8a.\n";
+    public static String r8b = "Sector 8b.\n";
+    public static String r8c = "Sector 8c.\n";
+    public static String r9a = "Sector 9a.\n";
+    public static String r9b = "Sector 9b.\n";
+    public static String r9c = "Sector 9c.\n";
+
+
 }

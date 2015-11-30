@@ -26,6 +26,28 @@ public class Zork {
     public final Room room2a = new Room("Room2a", Lang.r2a);
     public final Room room2b = new Room("Room2b", Lang.r2b);
     public final Room room3a = new Room("Room3a", Lang.r3a);
+    public final Room room3b = new Room("Room3b", Lang.r3b);
+    public final Room room1c = new Room("Room1c", Lang.r1c);
+    public final Room room2c = new Room("Room2c", Lang.r2c);
+    public final Room room3c = new Room("Room3c", Lang.r3c);
+    public final Room room4a = new Room("Room4a", Lang.r4a);
+    public final Room room4b = new Room("Room4b", Lang.r4b);
+    public final Room room4c = new Room("Room4c", Lang.r4c);
+    public final Room room5a = new Room("Room5a", Lang.r5a);
+    public final Room room5b = new Room("Room5b", Lang.r5b);
+    public final Room room5c = new Room("Room5c", Lang.r5c);
+    public final Room room6a = new Room("Room6a", Lang.r6a);
+    public final Room room6b = new Room("Room6b", Lang.r6b);
+    public final Room room6c = new Room("Room6c", Lang.r6c);
+    public final Room room7a = new Room("Room7a", Lang.r7a);
+    public final Room room7b = new Room("Room7b", Lang.r7b);
+    public final Room room7c = new Room("Room7c", Lang.r7c);
+    public final Room room8a = new Room("Room8a", Lang.r8a);
+    public final Room room8b = new Room("Room8b", Lang.r8b);
+    public final Room room8c = new Room("Room8c", Lang.r8c);
+    public final Room room9a = new Room("Room9a", Lang.r9a);
+    public final Room room9b = new Room("Room9b", Lang.r9b);
+    public final Room room9c = new Room("Room9c", Lang.r9c);
     public boolean running = false;
     public CommandHandler commandHandler;
     private Player player;
@@ -315,6 +337,37 @@ public class Zork {
         room1a.addExit(Direction.DOWN, room0);
         room1a.addExit(Direction.EAST, room2a);
         room1a.addExit(Direction.SOUTH, room1b);
+
+        room2a.addExit(Direction.SOUTH, room2b);
+        room2a.addExit(Direction.EAST, room3a);
+        room2a.addExit(Direction.WEST, room1a);
+
+        room3a.addExit(Direction.WEST, room2a);
+        room3a.addExit(Direction.SOUTH, room3b);
+        room3a.addExit(Direction.EAST, room4a);
+
+        room4a.addExit(Direction.WEST, room3a);
+        room4a.addExit(Direction.SOUTH, room4b);
+        room4a.addExit(Direction.EAST, room5a);
+
+        room5a.addExit(Direction.WEST, room4a);
+        room5a.addExit(Direction.SOUTH, room5b);
+        room5a.addExit(Direction.EAST, room6a);
+
+        room6a.addExit(Direction.WEST, room5a);
+        room6a.addExit(Direction.SOUTH, room6b);
+        room6a.addExit(Direction.EAST, room7a);
+
+        room7a.addExit(Direction.WEST, room6a);
+        room7a.addExit(Direction.SOUTH, room7b);
+        room7a.addExit(Direction.EAST, room8a);
+
+        room8a.addExit(Direction.WEST, room7a);
+        room8a.addExit(Direction.SOUTH, room8b);
+        room8a.addExit(Direction.EAST, room9a);
+
+        room9a.addExit(Direction.WEST, room8a);
+        room9a.addExit(Direction.SOUTH, room9b);
     }
 
     public void populateRooms() {

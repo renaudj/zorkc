@@ -137,13 +137,16 @@ public class Room {
     }
 
     public String getExitString(){
-        String output="You can go";
-        String temp="";
-        for(Direction d : exits.keySet()){
-            temp+=", "+d.toString().toLowerCase();
+        if (this.exits.size() > 0) {
+            String output = "You can go";
+            String temp = "";
+            for (Direction d : exits.keySet()) {
+                temp += ", " + d.toString().toLowerCase();
+            }
+            temp = temp.substring(1);
+            return output + temp;
         }
-        temp=temp.substring(1);
-        return output+temp;
+        return "You can't go anywhere.";
     }
 
 

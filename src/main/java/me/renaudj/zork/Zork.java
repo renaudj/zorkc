@@ -311,6 +311,7 @@ public class Zork {
     //Assign neighboring rooms to the exits in each direction desired
     public void setRoomExits() {
         room0.addExit(Direction.UP, room1a);
+
         room1a.addExit(Direction.DOWN, room0);
         room1a.addExit(Direction.EAST, room2a);
         room1a.addExit(Direction.SOUTH, room1b);
@@ -324,7 +325,10 @@ public class Zork {
         room1a.addItem(chest);
 
         Enemy oldMan = new Enemy("Old Man", 4, "[Insert Dialogue]");
-        oldMan.getInventory().addItem(new Weapon("Lock Pick", 0, 1, "Picks locks", 0, 0));
+
+        Item lockPick = new Weapon("Lock Pick", 0, 1, "Picks locks", 0, 0);
+        oldMan.addDeathDrop(lockPick);
         room0.addCharacter(oldMan);
+        room1a.setRequiredItem(lockPick);
     }
 }

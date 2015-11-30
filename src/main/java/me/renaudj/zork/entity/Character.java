@@ -16,6 +16,10 @@ public class Character extends EntityLiving {
         this.deathDrops = new ArrayList<Item>();
     }
 
+    public void addDeathDrop(Item i) {
+        deathDrops.add(i);
+    }
+
     public String getDescription() {
         return description;
     }

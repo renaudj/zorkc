@@ -39,6 +39,14 @@ public class Player extends EntityLiving {
     }
 
     public void goToRoom(Room room) {
+        if (room.getRequiredItem() != null) {
+            if (!getInventory().hasItem(room.getRequiredItem().getName())) {
+                System.out.println("You need a " + room.getRequiredItem().getName() + " to enter here!");
+                return;
+            }
+        }
+        getInventory().removeItem(room.getRequiredItem());
+        room.setRequiredItem(null);
         setCurrentRoom(room);
         setCurrentView(room);
         System.out.println(room.getDescription());
@@ -101,6 +109,8 @@ public class Player extends EntityLiving {
             } else {
                 damage = 1;
             }
+        } else {
+            damage = 1;
         }
         Zork.getInstance().getEventExecutor().executeEvent(new PlayerDamageEvent(this, damage, p, i));
     }

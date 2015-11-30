@@ -12,6 +12,6 @@ public class PlayerListener implements EventListener {
 
     @Event
     public void onPlayerDamaged(PlayerDamageEvent e) {
-        System.out.println(e.getEntity().getName() + " dealt " + e.getDamage() + " damage on you wielding " + (e.getItemInHand() == null ? " nothing" : e.getItemInHand().getName()) + "!");
+        System.out.println(e.getEntity().getName() + " dealt " + e.getDamage() + " damage on you wielding " + (e.getItemInHand() == null ? "nothing" : e.getItemInHand().getName()) + "!");
     }
 }

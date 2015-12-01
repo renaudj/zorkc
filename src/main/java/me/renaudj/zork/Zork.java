@@ -429,6 +429,63 @@ public class Zork {
         room9b.addExit(Direction.WEST, room8b);
         room9b.addExit(Direction.NORTH, room9a);
         room9b.addExit(Direction.SOUTH, room9c);
+
+        room1c.addExit(Direction.NORTH, room1b);
+        room1c.addExit(Direction.EAST, room2c);
+        room1c.addExit(Direction.SOUTH, room1d);
+
+        room2c.addExit(Direction.WEST, room1c);
+        room2c.addExit(Direction.NORTH, room2b);
+        room2c.addExit(Direction.EAST, room3c);
+        room2c.addExit(Direction.SOUTH, room2d);
+
+        room3c.addExit(Direction.WEST, room2c);
+        room3c.addExit(Direction.NORTH, room3b);
+        room3c.addExit(Direction.EAST, room4c);
+        room3c.addExit(Direction.SOUTH, room3d);
+
+        room4c.addExit(Direction.WEST, room3c);
+        room4c.addExit(Direction.NORTH, room4b);
+        room4c.addExit(Direction.EAST, room5c);
+        room4c.addExit(Direction.SOUTH, room4d);
+
+        room5c.addExit(Direction.WEST, room4c);
+        room5c.addExit(Direction.NORTH, room5b);
+        room5c.addExit(Direction.EAST, room6c);
+        room5c.addExit(Direction.SOUTH, room5d);
+
+        room6c.addExit(Direction.WEST, room5c);
+        room6c.addExit(Direction.NORTH, room6b);
+        room6c.addExit(Direction.EAST, room7c);
+        room6c.addExit(Direction.SOUTH, room6d);
+
+        room7c.addExit(Direction.WEST, room6c);
+        room7c.addExit(Direction.NORTH, room7b);
+        room7c.addExit(Direction.EAST, room8c);
+        room7c.addExit(Direction.SOUTH, room7d);
+
+        room8c.addExit(Direction.WEST, room7c);
+        room8c.addExit(Direction.NORTH, room8b);
+        room8c.addExit(Direction.EAST, room9c);
+        room8c.addExit(Direction.SOUTH, room8d);
+
+        room9c.addExit(Direction.WEST, room8c);
+        room9c.addExit(Direction.NORTH, room9b);
+        room9c.addExit(Direction.SOUTH, room9d);
+
+        room1d.addExit(Direction.NORTH, room1c);
+        room1d.addExit(Direction.EAST, room2d);
+        room1d.addExit(Direction.SOUTH, room1e);
+
+        room2d.addExit(Direction.WEST, room1d);
+        room2d.addExit(Direction.NORTH, room2c);
+        room2d.addExit(Direction.EAST, room3d);
+        room2d.addExit(Direction.SOUTH, room2e);
+
+        room3d.addExit(Direction.WEST, room2d);
+        room3d.addExit(Direction.NORTH, room3c);
+        room3d.addExit(Direction.EAST, room4d);
+        room3d.addExit(Direction.SOUTH, room3e);
     }
 
     public void populateRooms() {

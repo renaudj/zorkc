@@ -530,6 +530,25 @@ public class Zork {
         room4e.addExit(Direction.WEST, room3e);
         room4e.addExit(Direction.NORTH, room4d);
         room4e.addExit(Direction.EAST, room5e);
+
+        room5e.addExit(Direction.WEST, room4e);
+        room5e.addExit(Direction.NORTH, room5d);
+        room5e.addExit(Direction.EAST, room6e);
+
+        room6e.addExit(Direction.WEST, room5e);
+        room6e.addExit(Direction.NORTH, room6d);
+        room6e.addExit(Direction.EAST, room7e);
+
+        room7e.addExit(Direction.WEST, room6e);
+        room7e.addExit(Direction.NORTH, room7d);
+        room7e.addExit(Direction.EAST, room8e);
+
+        room8e.addExit(Direction.WEST, room7e);
+        room8e.addExit(Direction.NORTH, room8d);
+        room8e.addExit(Direction.EAST, room9e);
+
+        room9e.addExit(Direction.WEST, room8e);
+        room9e.addExit(Direction.NORTH, room9d);
     }
 
     public void populateRooms() {

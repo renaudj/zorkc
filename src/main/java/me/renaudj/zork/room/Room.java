@@ -1,6 +1,7 @@
 package me.renaudj.zork.room;
 
 import me.renaudj.zork.entity.Character;
+import me.renaudj.zork.entity.Player;
 import me.renaudj.zork.items.Item;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Room {
     private ArrayList<Character> characters;
     private int lockCode;
     private Item requiredItem;
+    private OnEnterRoomListener onEnterRoomListener;
 
     public Room(String name, String description) {
         this.name = name;
@@ -25,6 +27,11 @@ public class Room {
         this.characters = new ArrayList<Character>();
         this.lockCode = 0;
         this.requiredItem = null;
+        this.onEnterRoomListener = new OnEnterRoomListener() {
+            public void onEnter(Player player) {
+                return;
+            }
+        };
     }
 
     public Room(String name, String description, int lockCode) {
@@ -35,6 +42,11 @@ public class Room {
         this.characters = new ArrayList<Character>();
         this.lockCode = lockCode;
         this.requiredItem = null;
+        this.onEnterRoomListener = new OnEnterRoomListener() {
+            public void onEnter(Player player) {
+                return;
+            }
+        };
     }
     public Room(String name, String description, int lockCode, Item requiredItem) {
         this.name = name;
@@ -44,6 +56,11 @@ public class Room {
         this.characters = new ArrayList<Character>();
         this.lockCode = lockCode;
         this.requiredItem = requiredItem;
+        this.onEnterRoomListener = new OnEnterRoomListener() {
+            public void onEnter(Player player) {
+                return;
+            }
+        };
     }
 
     public Item getRequiredItem(){
@@ -122,7 +139,6 @@ public class Room {
             for (Character c : characters) {
                 if (c.getName().equalsIgnoreCase(name))
                     return c;
-
             }
         }
         return null;
@@ -149,5 +165,11 @@ public class Room {
         return "You can't go anywhere.";
     }
 
+    public void onEnter(Player p) {
+        this.onEnterRoomListener.onEnter(p);
+    }
 
+    public void setOnEnterRoomListener(OnEnterRoomListener l) {
+        this.onEnterRoomListener = l;
+    }
 }

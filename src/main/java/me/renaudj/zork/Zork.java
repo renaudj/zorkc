@@ -11,6 +11,7 @@ import me.renaudj.zork.items.InventorySlotType;
 import me.renaudj.zork.items.Item;
 import me.renaudj.zork.items.Weapon;
 import me.renaudj.zork.room.Direction;
+import me.renaudj.zork.room.OnEnterRoomListener;
 import me.renaudj.zork.room.Room;
 
 import java.util.ArrayList;
@@ -429,6 +430,17 @@ public class Zork {
         room9b.addExit(Direction.WEST, room8b);
         room9b.addExit(Direction.NORTH, room9a);
         room9b.addExit(Direction.SOUTH, room9c);
+
+        OnEnterRoomListener kill = new OnEnterRoomListener() {
+            public void onEnter(Player player) {
+                int old = player.getHP();
+                player.setHP(0);
+                player.onDeath(player);
+            }
+        };
+
+        room1c.setOnEnterRoomListener(kill);
+        room3c.setOnEnterRoomListener(kill);
     }
 
     public void populateRooms() {
@@ -441,6 +453,8 @@ public class Zork {
         Enemy oldMan = new Enemy("Old Man", 4, "[Insert Dialogue]");
 
         Item lockPick = new Weapon("Lock Pick", 0, 1, "Picks locks", 0, 0);
+        Item rock = new Weapon("Rock", 1, 1, "", 4, 0);
+        room0.addItem(rock);
         oldMan.addDeathDrop(lockPick);
         room0.addCharacter(oldMan);
         room1a.setRequiredItem(lockPick);

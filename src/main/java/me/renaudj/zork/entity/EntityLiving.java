@@ -61,6 +61,9 @@ public abstract class EntityLiving {
                     c.setHP(c.getHP() - ((Weapon) getRightHand()).getPower());
                     getRightHand().setDurability(getRightHand().getDurability() - 1);
                     ((Weapon) getRightHand()).activateAbility(this, c);
+                    if (((Weapon) getRightHand()).getDurability() <= 0) {
+                        getInventory().removeItem(getRightHand());
+                    }
                 } else {
                     c.setHP(c.getHP() - 1);
                 }
@@ -69,6 +72,9 @@ public abstract class EntityLiving {
                     c.setHP(c.getHP() - ((Weapon) getLeftHand()).getPower());
                     getLeftHand().setDurability(getLeftHand().getDurability() - 1);
                     ((Weapon) getLeftHand()).activateAbility(this, c);
+                    if (((Weapon) getLeftHand()).getDurability() <= 0) {
+                        getInventory().removeItem(getLeftHand());
+                    }
                 } else {
                     c.setHP(c.getHP() - 1);
                 }

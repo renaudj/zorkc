@@ -68,6 +68,7 @@ public class Player extends EntityLiving {
         }
         if(getCurrentRoom().getName() !="Room0" )
         System.out.println(getCurrentRoom().getExitString());
+        room.onEnter(this);
     }
 
     public void attack(EntityLiving c) {
@@ -117,5 +118,6 @@ public class Player extends EntityLiving {
 
     public void onDeath(EntityLiving p) {
         System.out.println("You've died!");
+        System.exit(0);
     }
 }

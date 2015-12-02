@@ -2,7 +2,7 @@ package me.renaudj.zork;
 
 public class Lang {
 
-    public static String title = "The Legend of Kashyyyk";
+    public static String title = "Mad Russian:Initial Impact";
     public static String intro = "Welcome to " + title + "!";
     public static String r0 = "You find yourself in a concrete room with that seems to have no exit. There must be a hidden door somewhere.";
     public static String r1a = "Sector 1a.\nYou've found the hidden door! You step out into a desolate wasteland of tattered and heavily tarnished metal walls in a place where machines once came to die.\nThe ground was covered in a confetti of mechanical pieces and the tombs of steel piled high into the smog hovering above.";
@@ -12,8 +12,8 @@ public class Lang {
     public static String r3a = "Sector 3a.\nYou come to a vibrant grass field with streams passing through the landscape and sounds of the wind whispering through the empty pastures.";
     public static String r3b = "Sector 3b.\nScuttling your way through dense bushes you suddenly come to the edge of a ginormous canyon blocking passage to the east while nearly falling to your death.\nAfter recovering from your near death experience you notice a bulky object covered by a thick layer of old rotted branches and foilage.";
     public static String r1c = "Sector 1c.\nMoving your way into an opening you are suddenly ambushed by a pack of rabid cyber rabbits and are unable to find a way out.";
-    public static String r1d = "Sector 1d.\n";
-    public static String r1e = "Sector 1e.\n";
+    public static String r1d = "Sector 1d.\nYou approach a small shack seemed to of been blown to pieces and piles of brick rubble and shrapnel scattered about with nothing left standing but a lonely door frame.\n You notice a chill breeze and the gloomy stare of  dark clouds overhead against the moon in the night sky.";
+    public static String r1e = "Sector 1e.\nEnduring winds of deathly speeds you see nothing but a old wood bridge and trees bowing around you. You attempt to take cover under the bridge. Nothing is audible but the shrieking wind and the moaning creaks of the bridge as it begins to collapse above you, you attempt to evade the it but are instead met with a piece of shrapnel through your heart.";
     public static String r2c = "Sector 2c.\nWith a sense of peace you stumble uppon a vivid meadow filled with beautiful and exotic flowers of all kinds with the sounds of birds chirping and streams flowing.";
     public static String r2d = "Sector 2d.\n";
     public static String r2e = "Sector 2e.\n";

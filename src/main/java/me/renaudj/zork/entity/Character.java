@@ -52,7 +52,7 @@ public class Character extends EntityLiving {
         }
         if (getDeathDrops().size() > 0) {
             System.out.print(getName() + " dropped");
-            for (Item i : ((Player) p).getCurrentRoom().getItems()) {
+            for (Item i : getDeathDrops()) {
                 String o = ", a " + i.getName();
                 System.out.print(o.substring(1));
             }

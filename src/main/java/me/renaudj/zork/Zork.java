@@ -11,6 +11,7 @@ import me.renaudj.zork.items.InventorySlotType;
 import me.renaudj.zork.items.Item;
 import me.renaudj.zork.items.Weapon;
 import me.renaudj.zork.room.Direction;
+import me.renaudj.zork.room.OnEnterRoomListener;
 import me.renaudj.zork.room.Room;
 
 import java.util.ArrayList;
@@ -556,13 +557,27 @@ public class Zork {
         List<Item> items = new ArrayList<Item>();
         items.add(sword);
         Container chest = new Container("Chest", items);
+        Weapon rock = new Weapon("Rock", 1, 1, "", 5, 0);
+        room0.addItem(rock);
         room1a.addItem(chest);
 
         Enemy oldMan = new Enemy("Old Man", 4, "[Insert Dialogue]");
 
-        Item lockPick = new Weapon("Lock Pick", 0, 1, "Picks locks", 0, 0);
+        Item lockPick = new Item("Lock Pick", 0, 1, "Picks locks");
         oldMan.addDeathDrop(lockPick);
         room0.addCharacter(oldMan);
         room1a.setRequiredItem(lockPick);
+        Enemy guard = new Enemy("Guard", 10, "Hey, how did you get out?!?");
+        Weapon baton = new Weapon("Baton", 100, 5, "Security Baton", 3, 0);
+        guard.getInventory().equip(InventorySlotType.RIGHT_HAND, baton);
+        room1a.addCharacter(guard);
+
+        room1a.setOnEnterRoomListener(new OnEnterRoomListener() {
+            public void onEnter(Player player) {
+                if (room1a.hasCharacter("Guard"))
+                    room1a.getCharacter("Guard").attack(player);
+            }
+        });
+
     }
 }

@@ -1,20 +1,20 @@
 package me.renaudj.zork;
 
+import me.renaudj.zork.Ability.IAbility;
 import me.renaudj.zork.commands.Command;
 import me.renaudj.zork.commands.CommandHandler;
 import me.renaudj.zork.entity.Enemy;
+import me.renaudj.zork.entity.EntityLiving;
 import me.renaudj.zork.entity.Player;
 import me.renaudj.zork.events.EventExecutor;
 import me.renaudj.zork.events.PlayerListener;
-import me.renaudj.zork.items.Container;
-import me.renaudj.zork.items.InventorySlotType;
-import me.renaudj.zork.items.Item;
-import me.renaudj.zork.items.Weapon;
+import me.renaudj.zork.items.*;
 import me.renaudj.zork.room.Direction;
 import me.renaudj.zork.room.OnEnterRoomListener;
 import me.renaudj.zork.room.Room;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -69,6 +69,7 @@ public class Zork {
     public final Room room9e = new Room("Room9e", Lang.r9e);
     public boolean running = false;
     public CommandHandler commandHandler;
+    private HashMap<String, Recipe> recipes = new HashMap<String, Recipe>();
     private Player player;
     private EventExecutor events;
     public Zork() {
@@ -146,11 +147,58 @@ public class Zork {
             }
 
         });
+
+        commandHandler.register("eat", new Command() {
+
+            public boolean onCommand(String command, String[] args) {
+                if (args.length == 1) {
+                    if (player.getInventory().hasItem(args[0])) {
+                        if (!(player.getInventory().getItem(args[0]) instanceof Food)) {
+                            System.out.println("That's not food!");
+                            return true;
+                        }
+                        Item item = player.getInventory().getItem(args[0]);
+                        item.use(player);
+                    }
+                } else if (args.length == 2) {
+                    if (player.getInventory().hasItem(args[0])) {
+                        if (!(player.getInventory().getItem(args[0]) instanceof Food)) {
+                            System.out.println("That's not food!");
+                            return true;
+                        }
+                        Item item = player.getInventory().getItem(args[0]);
+                        item.use(player);
+                    }
+                }
+                return true;
+            }
+
+        });
         commandHandler.register("quit", new Command() {
 
             public boolean onCommand(String command, String[] args) {
                 running = false;
                 System.out.println("Goodbye!");
+                return true;
+            }
+
+        });
+        commandHandler.register("craft", new Command() {
+
+            public boolean onCommand(String command, String[] args) {
+                String s = "";
+                for (String f : args) {
+                    s += f + " ";
+                }
+                s = s.trim();
+                for (String st : recipes.keySet()) {
+                    if (st.equalsIgnoreCase(s)) {
+                        recipes.get(s.toLowerCase()).craft(player);
+                        System.out.println("Recipe exists");
+                        return true;
+                    }
+                }
+                System.out.println("That recipe doesn't exist!");
                 return true;
             }
 
@@ -558,10 +606,43 @@ public class Zork {
         items.add(sword);
         Container chest = new Container("Chest", items);
         Weapon rock = new Weapon("Rock", 1, 1, "", 5, 0);
+        Item stick = new Item("Stick", 1, 1, "Stick");
+        rock.setAbility(new IAbility() {
+            public void activate(EntityLiving entityLiving) {
+                boolean full = entityLiving.getHP() == entityLiving.getMaxHP();
+                entityLiving.setMaxHP(entityLiving.getMaxHP() + 20);
+                if (full)
+                    entityLiving.setHP(entityLiving.getMaxHP());
+                System.out.println("Your max HP has been increased by 20!");
+            }
+        });
+        ArrayList<Item> arr = new ArrayList<Item>();
+        arr.add(rock);
+        arr.add(stick);
+        Item itemArrow = new Item("Arrow", 2, 2, "A basic arrow");
+        Recipe arrow = new Recipe(arr, itemArrow);
+        recipes.put("arrow", arrow);
         room0.addItem(rock);
+        room0.addItem(stick);
         room1a.addItem(chest);
 
-        Enemy oldMan = new Enemy("Old Man", 4, "[Insert Dialogue]");
+        Enemy bear = new Enemy("Bear", 45, "Uh he looks hungry..");
+        bear.setBaseDamage(20);
+
+        room9a.addCharacter(bear);
+
+        Enemy dragon = new Enemy("Dragon", 100, "Fin boss");
+
+        Enemy assassin = new Enemy("Assassin", 20, "lookout you gon get stabbed");
+
+        Enemy alien = new Enemy("Alien", 50, "");
+
+        Enemy lakeMonster = new Enemy("Lake Monster", 65, "");
+
+        Enemy giantInsect = new Enemy("Giant Insect", 40, "");
+
+
+        Enemy oldMan = new Enemy("Old Man", 4, "I've been here for 20 years trying to escape, I've gotten super close.\nThat guard dropped a paperclip the other day!");
 
         Item lockPick = new Item("Lock Pick", 0, 1, "Picks locks");
         oldMan.addDeathDrop(lockPick);
@@ -571,6 +652,33 @@ public class Zork {
         Weapon baton = new Weapon("Baton", 100, 5, "Security Baton", 3, 0);
         guard.getInventory().equip(InventorySlotType.RIGHT_HAND, baton);
         room1a.addCharacter(guard);
+
+        Enemy bandit = new Enemy("Bandit", 20, "Huh? There you are!");
+        Weapon dagger = new Weapon("Dagger", 20, 10, "A basic dagger", 15, 0);
+        Food porkChop = new Food("Porkchop", 1, 20, "Heals 20 HP");
+        bandit.getInventory().equip(InventorySlotType.RIGHT_HAND, dagger);
+        bandit.addDeathDrop(porkChop);
+
+        room5c.addCharacter(bandit);
+
+        Enemy banditchief = new Enemy("Bandit Chief", 35, "Ha You stand no chance, prepare to die!");
+        Weapon warhammer = new Weapon("War Hammer", 20, 20, "A diabolical instrument of death", 25, 0);
+        banditchief.getInventory().equip(InventorySlotType.RIGHT_HAND, warhammer);
+        Food magicApple = new Food("Magic Apple", 1, 50, "Heals 50 HP");
+        banditchief.addDeathDrop(magicApple);
+
+        room5c.addCharacter(banditchief);
+
+        room5c.setOnEnterRoomListener(new OnEnterRoomListener() {
+            public void onEnter(Player player) {
+                if (room5c.hasCharacter("Bandit")) { //If the character is in the room (if it hasn't been killed yet)
+                    room5c.getCharacter("Bandit").attack(player); //attack the player
+                }
+                if (room5c.hasCharacter("Bandit Chief")) { //If the character is in the room (if it hasn't been killed yet)
+                    room5c.getCharacter("Bandit Chief").attack(player); //attack the player
+                }
+            }
+        });
 
         room1a.setOnEnterRoomListener(new OnEnterRoomListener() {
             public void onEnter(Player player) {

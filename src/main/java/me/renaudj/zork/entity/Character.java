@@ -10,6 +10,12 @@ public class Character extends EntityLiving {
     private String description;
     private List<Item> deathDrops;
 
+    /**
+     * @param name        Character name
+     * @param maxHp       Maximum HP this character has
+     * @param description Description or monologue
+     */
+
     public Character(String name, int maxHp, String description) {
         super(name, maxHp);
         this.description = description;

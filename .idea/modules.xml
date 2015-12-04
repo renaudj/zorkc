@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Zork-Client.iml" filepath="$PROJECT_DIR$/Zork-Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/zorkc.iml" filepath="$PROJECT_DIR$/.idea/zorkc.iml" />
     </modules>
   </component>
 </project>

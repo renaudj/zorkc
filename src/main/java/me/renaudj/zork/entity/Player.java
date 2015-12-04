@@ -39,6 +39,19 @@ public class Player extends EntityLiving {
     }
 
     public void goToRoom(Room room) {
+        if (getCurrentRoom() != null) {
+            if (getCurrentRoom().hasCharacters()) {
+                for (Character c : getCurrentRoom().getCharacters()) {
+                    if (c instanceof Enemy) {
+                        Enemy e = (Enemy) c;
+                        if (e.getHP() < e.getMaxHP()) {
+                            System.out.println("You must kill " + e.getName() + " before you can go anywhere!");
+                            return;
+                        }
+                    }
+                }
+            }
+        }
         if (room.getRequiredItem() != null) {
             if (!getInventory().hasItem(room.getRequiredItem().getName())) {
                 System.out.println("You need a " + room.getRequiredItem().getName() + " to enter here!");
@@ -72,7 +85,6 @@ public class Player extends EntityLiving {
     }
 
     public void attack(EntityLiving c) {
-        super.attack(c);
         int damage = 0;
         Item i = null;
         if (getRightHand() != null || getLeftHand() != null) {
@@ -83,6 +95,7 @@ public class Player extends EntityLiving {
                 } else {
                     damage = 1;
                 }
+            else
             if (getLeftHand() != null)
                 if (getLeftHand() instanceof Weapon) {
                     damage = ((Weapon) getLeftHand()).getPower();
@@ -93,11 +106,11 @@ public class Player extends EntityLiving {
         } else {
             damage = 1;
         }
+        super.attack(c);
         Zork.getInstance().getEventExecutor().executeEvent(new PlayerAttackEvent(this, damage, c, i));
     }
 
     public void onDamage(EntityLiving p) {
-        super.onDamage(p);
         int damage = 0;
         Item i = null;
         if (p.getRightHand() != null || p.getLeftHand() != null) {
@@ -111,8 +124,9 @@ public class Player extends EntityLiving {
                 damage = 1;
             }
         } else {
-            damage = 1;
+            damage = ((Enemy) p).getBaseDamage();
         }
+        super.onDamage(p);
         Zork.getInstance().getEventExecutor().executeEvent(new PlayerDamageEvent(this, damage, p, i));
     }
 

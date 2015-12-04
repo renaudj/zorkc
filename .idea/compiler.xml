@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="Zork-Client" />
+        <module name="zorkc" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Zork-Client" target="1.5" />
+      <module name="zorkc" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -39,6 +39,9 @@ public class Player extends EntityLiving {
     }
 
     public void goToRoom(Room room) {
+        for (int i = 0; i <= 80; i++) {
+            System.out.println();
+        }
         if (getCurrentRoom() != null) {
             if (getCurrentRoom().hasCharacters()) {
                 for (Character c : getCurrentRoom().getCharacters()) {

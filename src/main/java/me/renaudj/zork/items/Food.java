@@ -14,13 +14,14 @@ public class Food extends Item {
     }
 
     public int getHPBonus() {
-        return getHPBonus();
+        return hpBonus;
     }
 
     public boolean use(Player p) {
         p.setHP(p.getHP() + getHPBonus());
         if (p.getHP() > p.getMaxHP()) {
             p.setHP(p.getMaxHP());
+            System.out.println("You've gained " + getHPBonus() + " HP");
             return true;
         }
         return true;

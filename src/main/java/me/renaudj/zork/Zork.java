@@ -151,16 +151,7 @@ public class Zork {
         commandHandler.register("eat", new Command() {
 
             public boolean onCommand(String command, String[] args) {
-                if (args.length == 1) {
-                    if (player.getInventory().hasItem(args[0])) {
-                        if (!(player.getInventory().getItem(args[0]) instanceof Food)) {
-                            System.out.println("That's not food!");
-                            return true;
-                        }
-                        Item item = player.getInventory().getItem(args[0]);
-                        item.use(player);
-                    }
-                } else if (args.length == 2) {
+                if (args.length > 0) {
                     if (player.getInventory().hasItem(args[0])) {
                         if (!(player.getInventory().getItem(args[0]) instanceof Food)) {
                             System.out.println("That's not food!");
@@ -453,7 +444,7 @@ public class Zork {
         room4b.addExit(Direction.WEST, room3b);
         room4b.addExit(Direction.NORTH, room4a);
         room4b.addExit(Direction.EAST, room5b);
-        room4b.addExit(Direction.SOUTH, room4c);
+        room4b.addExit(Direction.DOWN, room4c);
 
         room5b.addExit(Direction.WEST, room4b);
         room5b.addExit(Direction.NORTH, room5a);
@@ -563,7 +554,6 @@ public class Zork {
 
         room9d.addExit(Direction.WEST, room8d);
         room9d.addExit(Direction.NORTH, room9c);
-        room9d.addExit(Direction.SOUTH, room9e);
 
         room1e.addExit(Direction.NORTH, room1d);
         room1e.addExit(Direction.EAST, room2e);
@@ -616,24 +606,28 @@ public class Zork {
                 System.out.println("Your max HP has been increased by 20!");
             }
         });
-        ArrayList<Item> arr = new ArrayList<Item>();
-        arr.add(rock);
-        arr.add(stick);
-        Item itemArrow = new Item("Arrow", 2, 2, "A basic arrow");
-        Recipe arrow = new Recipe(arr, itemArrow);
-        recipes.put("arrow", arrow);
+        ArrayList<Item> ingredients = new ArrayList<Item>(); //ArrayList contains the list of required ingredients
+        ingredients.add(rock); //Adding the rock as an ingredient
+        ingredients.add(stick); //Adding the stick as an ingredient
+        Item itemArrow = new Item("Arrow", 2, 2, "A basic arrow"); //A new item, will be used as the product of the recipe
+        Recipe arrow = new Recipe(ingredients, itemArrow); //The recipe itself, with the ingredients and the product item as the arguments/
+        recipes.put("arrow", arrow); //Register the recipe in the game. "arrow" is what the user will type after "Craft" to craft an arrow.
+
         room0.addItem(rock);
         room0.addItem(stick);
         room1a.addItem(chest);
 
-        Enemy bear = new Enemy("Bear", 45, "Uh he looks hungry..");
+        Enemy bear = new Enemy("Bear", 45, "Entering the edge of the wooded area you hear a crack and a bear appears from the bushes. Uh he looks hungry..");
         bear.setBaseDamage(20);
 
         room9a.addCharacter(bear);
 
         Enemy dragon = new Enemy("Dragon", 100, "Fin boss");
+        dragon.setBaseDamage(35);
 
-        Enemy assassin = new Enemy("Assassin", 20, "lookout you gon get stabbed");
+        room8d.addCharacter(dragon);
+
+        Enemy assassin = new Enemy("Assassin", 20, "Lookout you gon get stabbed");
 
         Enemy alien = new Enemy("Alien", 50, "");
 
@@ -668,6 +662,18 @@ public class Zork {
         banditchief.addDeathDrop(magicApple);
 
         room5c.addCharacter(banditchief);
+
+        OnEnterRoomListener kill = new OnEnterRoomListener() {
+            public void onEnter(Player player) {
+                player.setHP(0);
+                player.onDeath(null);
+            }
+        };
+
+        room1e.setOnEnterRoomListener(kill);
+        room7e.setOnEnterRoomListener(kill);
+        room7c.setOnEnterRoomListener(kill);
+        room1c.setOnEnterRoomListener(kill);
 
         room5c.setOnEnterRoomListener(new OnEnterRoomListener() {
             public void onEnter(Player player) {

@@ -18,6 +18,15 @@ public class Recipe {
         result = res;
     }
 
+    public Recipe(Item res) {
+        this.result = res;
+        this.requirements = new ArrayList<Item>();
+    }
+
+    public void addIngredient(Item item) {
+        requirements.add(item);
+    }
+
     public List<Item> getRequirements() {
         return requirements;
     }
